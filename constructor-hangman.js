@@ -11,10 +11,12 @@ thisGame.initialize();
 thisGame.printPostGuess();
 
 var runGame = function() {
-	if (!thisGame.checkWin()) {
+	// stop inquirer recursive calls if game is won, or if no more guesses left
+	// console.log("have guesses left? " + (thisGame.numberGuesses > 0))
+	if ((!thisGame.checkWin()) && (thisGame.numberGuesses > 0)) {
 		inquirer.prompt([
 			{
-				// type: "input",
+				type: "input",
 				message: "Guess a letter!",
 				// validate: to require a alpha input 
 				name: "userGuess"
@@ -29,8 +31,35 @@ var runGame = function() {
 			runGame();
 		})
 	} else {
-		//when game is won, Congratulate the user!
-		console.log("YOU WIN !")
+		if (thisGame.numberGuesses === 0) {
+			console.log("\n------------------------------------");
+			console.log("--- No more guesses :( GAME OVER ---");
+			console.log("------------------------------------\n")
+		} else {
+			//when game is won, Congratulate the user!
+			console.log("YOU WIN !")
+		}
+
+
+		//prompt player for replay option
+		// inquirer.prompt([
+		// 	{
+		// 		type: "confirm",
+		// 		message: "Play again?",
+		// 		// default: "yes",
+		// 		name: "replay"
+		// 	}
+		// ]).then(function(answer) {
+		// 	console.log(answer.replay);
+		// 	if (answer.replay) {
+		// 		var newGame = new Game();
+		// 		newGame.initialize();
+		// 		newGame.printPostGuess();
+		// 		runGame(newGame);
+		// 	} else {
+		// 		console.log("See you next time!")
+		// 	}
+		// });
 	}
 
 }

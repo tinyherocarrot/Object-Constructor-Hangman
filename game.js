@@ -3,7 +3,8 @@ var Word = require("./word");
 
 var Game = function() {
 	// store array wordList
-	this.wordList = ["hiking"];
+	this.wordList = ['hiking', 'lake', 'topography', 'permit', 'thoreau', 'backpack', 'creek', 'summit', 'boots', 'sunscreen', 'chapstick', 'nalgene', 'granola', 'trail', 'switchback'],
+
 	
 	// set number of guesses remaining
 	this.numberGuesses = 7;
@@ -14,12 +15,13 @@ var Game = function() {
 	// Set currentWord, create Word Obj, and create gameState (array of Letter objects)
 	this.initialize = function() {
 		// set the current word to a (random) word from wordList
-		this.currentWord = this.wordList[0];
+		this.currentWord = this.wordList[Math.floor(Math.random() * this.wordList.length)];
+
 		
 		// Store a game state
 		this.wordObj = new Word(this.currentWord);
 		this.gameState = this.wordObj.gameStateConstructor(this.currentWord);
-		console.log("Starting gameState: " + JSON.stringify(this.gameState, null, 2));
+		// console.log("Starting gameState: " + JSON.stringify(this.gameState, null, 2));
 	}
 
 
@@ -27,7 +29,9 @@ var Game = function() {
 	this.updateGameState = function(guess) {
 		// if letter has already been guessed, let user know
 		if (this.lettersGuessed.indexOf(guess) > -1) {
-			console.log("This letter has already been guessed!")
+			console.log("\n--------------------------------------------");
+			console.log("--- This letter has already been guessed!---");
+			console.log("--------------------------------------------\n");
 		}
 		// ELSE run the check guess 
 		else {
@@ -41,13 +45,13 @@ var Game = function() {
 				}
 			});
 			if (atLeastOneCorrect) {
-				console.log("---------------");
-				console.log("    CORRECT!   ");
-				console.log("---------------\n");
+				console.error("\n---------------");
+				console.error("--- CORRECT!---");
+				console.error("---------------\n");
 			} else {
 				this.numberGuesses--;
-				console.log("---------------");
-				console.log("   INCORRECT!  ");
+				console.log("\n---------------");
+				console.log("-- INCORRECT!--");
 				console.log("---------------\n");
 			}
 			// update Game's copy of gameState so that it reflects the changes
@@ -80,9 +84,9 @@ var Game = function() {
 			displayableGameState += " ";
 		})
 
-		console.log(displayableGameState);
-		console.log("Letters Guessed: " + this.lettersGuessed +"\n");
-		console.log("# Of Guesses: " + this.numberGuesses);
+		console.log(`\n ${displayableGameState}`);
+		console.log(`Letters Guessed: ${this.lettersGuessed}` );
+		console.log(`# Of Guesses: ${this.numberGuesses} \n`);
 	}
 }
 
