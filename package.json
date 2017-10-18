@@ -1,0 +1,22 @@
+{
+  "name": "constructor-hangman",
+  "version": "1.0.0",
+  "description": "Command line Hangman game",
+  "main": "constructor-hangman.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinyherocarrot/Object-Constructor-Hangman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tinyherocarrot/Object-Constructor-Hangman/issues"
+  },
+  "homepage": "https://github.com/tinyherocarrot/Object-Constructor-Hangman#readme",
+  "dependencies": {
+    "inquirer": "^3.3.0"
+  }
+}
