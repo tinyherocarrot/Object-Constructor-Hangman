@@ -19,7 +19,7 @@ var runGame = function(gameObj) {
 			}
 		]).then(function(answers) {
 			// check guess
-			gameObj.updateGameState(answers.userGuess);
+			gameObj.updateGameState(answers.userGuess.toLowerCase());
 
 			// display new gameState, new lettersGuessed
 			gameObj.printPostGuess();
@@ -32,11 +32,14 @@ var runGame = function(gameObj) {
 	} else {
 		if (gameObj.numberGuesses === 0) {
 			console.log("\n------------------------------------");
-			console.log("--- No more guesses :( GAME OVER ---");
+			console.log("|   No more guesses :( GAME OVER   |");
 			console.log("------------------------------------\n")
 		} else {
 			//when game is won, Congratulate the user!
-			console.log("YOU WIN !")
+			console.log("\n--------------");
+			console.log("|  YOU WIN ! |");
+			console.log("--------------\n")
+
 		}
 
 
@@ -49,14 +52,15 @@ var runGame = function(gameObj) {
 				name: "replay"
 			}
 		]).then(function(answer) {
-			console.log(answer.replay);
 			if (answer.replay) {
 				var newGame = new Game();
 				newGame.initialize();
 				newGame.printPostGuess();
 				runGame(newGame);
 			} else {
-				console.log("See you next time!")
+				console.log("\n-------------------------");
+				console.log("|   See you next time!  |");
+				console.log("-------------------------\n");
 			}
 		});
 	}

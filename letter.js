@@ -1,19 +1,22 @@
 var Letter = function(value, guessedCorrectly) {
 	this.value = value;
 	this.guessedCorrectly = guessedCorrectly;
+	// this.printLetter = function() {
+		
+	// }
+}
 
-	// <METHOD> if letter has been guessed, display letter, otherwise display an underscore
-	this.printLetter = function() {
-		if (this.guessedCorrectly) {
+
+// <METHOD> if letter has been guessed, display letter, otherwise display an underscore
+Letter.prototype.printLetter = function() {
+	if (this.guessedCorrectly) {
 			// print this.value
 			return this.value;
 		} else {
 			// print underscore
 			return "_";
 		}
-	}
-}
-
+};
 
 // var newLetter1 = new Letter("h", true);
 // var newLetter2 = new Letter("y", false);
