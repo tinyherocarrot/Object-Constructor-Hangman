@@ -1,19 +1,14 @@
-// use inquirer Validate to take only letters, or else throw err
-// point Word js to Letter js, and main js to Word js
-
+// NOTE TO SELF: use inquirer Validate to take only letters, or else throw err?
 
 var inquirer = require("inquirer");
 var Game = require("./game");
 
-
-var thisGame = new Game();
-thisGame.initialize();
-thisGame.printPostGuess();
-
-var runGame = function() {
+// Recursive function for running Games until player doesnt wanna play no more. 
+// Takes in a specific game object
+var runGame = function(gameObj) {
 	// stop inquirer recursive calls if game is won, or if no more guesses left
 	// console.log("have guesses left? " + (thisGame.numberGuesses > 0))
-	if ((!thisGame.checkWin()) && (thisGame.numberGuesses > 0)) {
+	if ((!gameObj.checkWin()) && (gameObj.numberGuesses > 0)) {
 		inquirer.prompt([
 			{
 				type: "input",
@@ -24,14 +19,18 @@ var runGame = function() {
 			}
 		]).then(function(answers) {
 			// check guess
-			thisGame.updateGameState(answers.userGuess);
+			gameObj.updateGameState(answers.userGuess);
 
 			// display new gameState, new lettersGuessed
-			thisGame.printPostGuess();
-			runGame();
+			gameObj.printPostGuess();
+
+			// recursive call to prompt user for another guess
+			runGame(gameObj);
+		
 		})
+
 	} else {
-		if (thisGame.numberGuesses === 0) {
+		if (gameObj.numberGuesses === 0) {
 			console.log("\n------------------------------------");
 			console.log("--- No more guesses :( GAME OVER ---");
 			console.log("------------------------------------\n")
@@ -41,27 +40,32 @@ var runGame = function() {
 		}
 
 
-		//prompt player for replay option
-		// inquirer.prompt([
-		// 	{
-		// 		type: "confirm",
-		// 		message: "Play again?",
-		// 		// default: "yes",
-		// 		name: "replay"
-		// 	}
-		// ]).then(function(answer) {
-		// 	console.log(answer.replay);
-		// 	if (answer.replay) {
-		// 		var newGame = new Game();
-		// 		newGame.initialize();
-		// 		newGame.printPostGuess();
-		// 		runGame(newGame);
-		// 	} else {
-		// 		console.log("See you next time!")
-		// 	}
-		// });
+		// prompt player for replay option
+		inquirer.prompt([
+			{
+				type: "confirm",
+				message: "Play again?",
+				// default: "yes",
+				name: "replay"
+			}
+		]).then(function(answer) {
+			console.log(answer.replay);
+			if (answer.replay) {
+				var newGame = new Game();
+				newGame.initialize();
+				newGame.printPostGuess();
+				runGame(newGame);
+			} else {
+				console.log("See you next time!")
+			}
+		});
 	}
 
 }
 
-runGame();
+//start a game
+var thisGame = new Game();
+thisGame.initialize();
+thisGame.printPostGuess();
+
+runGame(thisGame);
