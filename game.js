@@ -1,4 +1,5 @@
-var Letter = require("./letter");
+// var Letter = require("./letter");
+var colors = require('colors'); 
 var Word = require("./word");
 
 var Game = function() {
@@ -18,45 +19,34 @@ Game.prototype.initialize = function() {
 	// set the current word to a (random) word from wordList
 	this.currentWord = this.wordList[Math.floor(Math.random() * this.wordList.length)];
 
-	
 	// Store a game state
 	this.wordObj = new Word(this.currentWord);
-	this.gameState = this.wordObj.gameStateConstructor(this.currentWord);
-	// console.log("Starting gameState: " + JSON.stringify(this.gameState, null, 2));
 }
 
 
 // <METHOD> Check a single guess. Calls on Word.checkOneGuess, then push to lettersGuessed array
 Game.prototype.updateGameState = function(guess) {
+	
 	// if letter has already been guessed, let user know
 	if (this.lettersGuessed.indexOf(guess) > -1) {
-		console.log("\n--------------------------------------------");
-		console.log("--- This letter has already been guessed!---");
-		console.log("--------------------------------------------\n");
+		console.log("\n--------------------------------------------".yellow);
+		console.log("|   This letter has already been guessed!  |".yellow);
+		console.log("--------------------------------------------\n".yellow);
 	}
+	
 	// ELSE run the check guess 
 	else {
-		// this.wordObj.checkOneGuess(guess);
-		var atLeastOneCorrect = false;
-		this.gameState.forEach(function(letterObj) { 
-			if (letterObj.value === guess) {
-				// console.log("im in the updateGameState forEach!")
-				letterObj.guessedCorrectly = true;
-				atLeastOneCorrect = true;
-			}
-		});
-		if (atLeastOneCorrect) {
-			console.error("\n---------------");
-			console.error("|   CORRECT!  |");
-			console.error("---------------\n");
+		if (this.wordObj.checkOneGuess(guess)) {
+			console.error("\n---------------".bold.green);
+			console.error("|   CORRECT!  |".bold.green);
+			console.error("---------------\n".bold.green);
 		} else {
+			console.log("\n---------------".bold.red);
+			console.log("|  INCORRECT! |".bold.red);
+			console.log("---------------\n".bold.red);
 			this.numberGuesses--;
-			console.log("\n---------------");
-			console.log("|  INCORRECT! |");
-			console.log("---------------\n");
 		}
-		// update Game's copy of gameState so that it reflects the changes
-		// this.gameState = this.wordObj.gameState;
+
 		// add guess to array of lettersGuessed
 		this.lettersGuessed.push(guess);
 	}
@@ -66,7 +56,7 @@ Game.prototype.updateGameState = function(guess) {
 // <METHOD> checkWin:  returns true if all its letters are guessed 
 Game.prototype.checkWin = function() {
 	var ans = true;
-	this.gameState.forEach(function(letterObj) {
+	this.wordObj.letterObjArr.forEach(function(letterObj) {
 		if (!letterObj.guessedCorrectly) {
 			ans = false;
 		}
@@ -77,21 +67,30 @@ Game.prototype.checkWin = function() {
 
 // <METHOD> printPostGuess:  following a guess: game state, letters guessed 
 Game.prototype.printPostGuess = function() {
-	var displayableGameState = "";
+	// call print method in Word
 
-	// console.log(this.gameState);
+	// compile a string of each letterObj, with proper spacing
+	var displayableGameState = this.wordObj.printWord();
 
-	this.gameState.forEach(function(letterObj) {
-		// console.log(letterObj)
-		displayableGameState += letterObj.printLetter();
-		displayableGameState += " ";
-	})
-
+	// print the displayableGameState, along with letters already guessed, and number of guesses left
 	console.log(`\n ${displayableGameState}`);
 	console.log(`\nLetters Guessed: ${this.lettersGuessed}` );
 	console.log(`# Of Guesses: ${this.numberGuesses} \n`);
 }
 
 
+Game.prototype.printLoseWin = function() {
+	if (this.numberGuesses === 0) {
+		console.log("\n------------------------------------");
+		console.log("|   No more guesses :( GAME OVER   |");
+		console.log("------------------------------------\n")
+	} else {
+		//when game is won, Congratulate the user!
+		console.log("\n--------------");
+		console.log("|  YOU WIN ! |");
+		console.log("--------------\n")
+
+	}
+};
 
 module.exports = Game;

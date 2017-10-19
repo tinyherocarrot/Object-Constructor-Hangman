@@ -4,11 +4,12 @@ var inquirer = require("inquirer");
 var Game = require("./game");
 
 // Recursive function for running Games until player doesnt wanna play no more. 
-// Takes in a specific game object
+// Takes in a specific game object to run.
 var runGame = function(gameObj) {
+	
 	// stop inquirer recursive calls if game is won, or if no more guesses left
-	// console.log("have guesses left? " + (thisGame.numberGuesses > 0))
 	if ((!gameObj.checkWin()) && (gameObj.numberGuesses > 0)) {
+		
 		inquirer.prompt([
 			{
 				type: "input",
@@ -30,17 +31,7 @@ var runGame = function(gameObj) {
 		})
 
 	} else {
-		if (gameObj.numberGuesses === 0) {
-			console.log("\n------------------------------------");
-			console.log("|   No more guesses :( GAME OVER   |");
-			console.log("------------------------------------\n")
-		} else {
-			//when game is won, Congratulate the user!
-			console.log("\n--------------");
-			console.log("|  YOU WIN ! |");
-			console.log("--------------\n")
-
-		}
+		gameObj.printLoseWin();
 
 
 		// prompt player for replay option
@@ -66,6 +57,7 @@ var runGame = function(gameObj) {
 	}
 
 }
+
 
 //start a game
 var thisGame = new Game();
