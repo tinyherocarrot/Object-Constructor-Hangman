@@ -73,22 +73,22 @@ Game.prototype.printPostGuess = function() {
 	var displayableGameState = this.wordObj.printWord();
 
 	// print the displayableGameState, along with letters already guessed, and number of guesses left
-	console.log(`\n ${displayableGameState}`);
-	console.log(`\nLetters Guessed: ${this.lettersGuessed}` );
+	console.log(`\n ${displayableGameState}`.bgWhite.black);
+	console.log(`\nLetters Guessed: ${this.lettersGuessed}`);
 	console.log(`# Of Guesses: ${this.numberGuesses} \n`);
 }
 
 
 Game.prototype.printLoseWin = function() {
 	if (this.numberGuesses === 0) {
-		console.log("\n------------------------------------");
-		console.log("|   No more guesses :( GAME OVER   |");
-		console.log("------------------------------------\n")
+		console.log("\n------------------------------------".bgRed);
+		console.log("|   No more guesses :( GAME OVER   |".bgRed);
+		console.log("------------------------------------\n".bgRed)
 	} else {
 		//when game is won, Congratulate the user!
-		console.log("\n--------------");
-		console.log("|  YOU WIN ! |");
-		console.log("--------------\n")
+		console.log("\n--------------".bgCyan);
+		console.log("|  YOU WIN ! |".bgCyan);
+		console.log("--------------\n".bgCyan)
 
 	}
 };

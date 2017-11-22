@@ -2,6 +2,8 @@
 
 var inquirer = require("inquirer");
 var Game = require("./game");
+var colors = require('colors'); 
+
 
 // Recursive function for running Games until player doesnt wanna play no more. 
 // Takes in a specific game object to run.
